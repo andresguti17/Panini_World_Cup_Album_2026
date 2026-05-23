@@ -1,0 +1,12 @@
+services:
+  db-album-world-cup:
+    image: postgres:18
+    container_name: db-album-world-cup
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: album_world_cup
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
