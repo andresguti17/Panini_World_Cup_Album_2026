@@ -1,13 +1,20 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomeScreen from '../view/screen/HomeScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LandingScreen from '../view/screen/Landing/LandingScreen';
+
+export type RootStackParamList = {
+  Landing: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<HomeScreen />} />
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Landing" component={LandingScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
