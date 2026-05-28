@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import {
   View,
   Text,
@@ -15,7 +16,6 @@ import {
   STATS,
   FEATURES,
   MINI_STATS,
-  STICKERS,
   CTA_PILLS,
 } from "./LandingScreen.data";
 
@@ -38,7 +38,7 @@ function Hero() {
   const b1 = useRef(new Animated.Value(0)).current;
   const b2 = useRef(new Animated.Value(0)).current;
   const b3 = useRef(new Animated.Value(0)).current;
-  const b4 = useRef(new Animated.Value(0)).current; 
+  const b4 = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const anim = (val: Animated.Value, duration: number) =>
@@ -46,7 +46,7 @@ function Hero() {
         Animated.sequence([
           Animated.timing(val, { toValue: 1, duration, useNativeDriver: true }),
           Animated.timing(val, { toValue: 0, duration, useNativeDriver: true }),
-        ])
+        ]),
       );
     Animated.parallel([
       anim(b1, 5000),
@@ -61,37 +61,90 @@ function Hero() {
 
   return (
     <View style={s.hero}>
-      <Animated.View style={[
-        s.heroBubble,
-        { width: 300, height: 300, backgroundColor: C.purple, top: -80, left: -80 },
-        { transform: [{ translateY: move(b1, 50) }, { translateX: move(b1, 30) }] },
-      ]} />
-      <Animated.View style={[
-        s.heroBubble,
-        { width: 200, height: 200, backgroundColor: C.blue, bottom: -60, right: -40 },
-        { transform: [{ translateY: move(b2, -60) }, { translateX: move(b2, -30) }] },
-      ]} />
-      <Animated.View style={[
-        s.heroBubble,
-        { width: 120, height: 120, backgroundColor: C.orange, top: 30, right: '15%' as any },
-        { transform: [{ translateY: move(b3, 40) }, { translateX: move(b3, 25) }] },
-      ]} />
-      <Animated.View style={[
-        s.heroBubble,
-        { width: 160, height: 160, backgroundColor: C.purple, top: '40%' as any, left: '35%' as any },
-        { transform: [{ translateY: move(b4, -35) }, { translateX: move(b4, 20) }] },
-      ]} />
+      <Animated.View
+        style={[
+          s.heroBubble,
+          {
+            width: 300,
+            height: 300,
+            backgroundColor: C.purple,
+            top: -80,
+            left: -80,
+          },
+          {
+            transform: [
+              { translateY: move(b1, 50) },
+              { translateX: move(b1, 30) },
+            ],
+          },
+        ]}
+      />
+      <Animated.View
+        style={[
+          s.heroBubble,
+          {
+            width: 200,
+            height: 200,
+            backgroundColor: C.blue,
+            bottom: -60,
+            right: -40,
+          },
+          {
+            transform: [
+              { translateY: move(b2, -60) },
+              { translateX: move(b2, -30) },
+            ],
+          },
+        ]}
+      />
+      <Animated.View
+        style={[
+          s.heroBubble,
+          {
+            width: 120,
+            height: 120,
+            backgroundColor: C.orange,
+            top: 30,
+            right: "15%" as any,
+          },
+          {
+            transform: [
+              { translateY: move(b3, 40) },
+              { translateX: move(b3, 25) },
+            ],
+          },
+        ]}
+      />
+      <Animated.View
+        style={[
+          s.heroBubble,
+          {
+            width: 160,
+            height: 160,
+            backgroundColor: C.purple,
+            top: "40%" as any,
+            left: "35%" as any,
+          },
+          {
+            transform: [
+              { translateY: move(b4, -35) },
+              { translateX: move(b4, 20) },
+            ],
+          },
+        ]}
+      />
 
       <View style={s.heroBadge}>
         <Text style={s.heroBadgeText}>Colección Oficial FIFA · 2026</Text>
       </View>
       <Text style={s.heroTitle}>
-        <Text style={{ color: C.orange }}>Tu álbum{'\n'}</Text>
-        {'Panini\n'}
+        <Text style={{ color: C.orange }}>Tu álbum{"\n"}</Text>
+        {"Panini\n"}
         <Text style={{ color: C.lime }}>digital</Text>
       </Text>
       <Text style={s.heroSub}>
-        Registra tus figuritas, encuentra tus faltantes e intercambia con coleccionistas de todo el mundo.
+        Registra tus figuritas, encuentra tus faltantes e intercambia con
+        coleccionistas de todo el mundo.
       </Text>
       <View style={s.heroBtns}>
         <TouchableOpacity style={s.btnPrimary}>
@@ -116,19 +169,47 @@ function ColorStrip() {
 }
 
 function CountryStrip() {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const ITEM_WIDTH = 180;
+  const TOTAL_WIDTH = COUNTRIES.length * ITEM_WIDTH;
+
+  useEffect(() => {
+    const run = () => {
+      translateX.setValue(0);
+      Animated.timing(translateX, {
+        toValue: -TOTAL_WIDTH,
+        duration: COUNTRIES.length * 1500,
+        useNativeDriver: true,
+      }).start(({ finished }) => {
+        if (finished) run();
+      });
+    };
+    run();
+  }, []);
+
+  const doubled = [...COUNTRIES, ...COUNTRIES];
+
   return (
-    <View style={s.countryStrip}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={s.countryRow}
+    <View style={[s.countryStrip, { overflow: "hidden" }]}>
+      <Animated.View
+        style={{ flexDirection: "row", transform: [{ translateX }] }}
       >
-        {COUNTRIES.map((name, i) => (
-          <Text key={i} style={s.countryItem}>
-            {name}
-          </Text>
+        {doubled.map((name: string, i: number) => (
+          <View
+            key={i}
+            style={{
+              width: ITEM_WIDTH,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 13,
+              borderRightWidth: 2,
+              borderRightColor: "rgba(255,255,255,0.25)",
+            }}
+          >
+            <Text style={s.countryItem}>{name}</Text>
+          </View>
         ))}
-      </ScrollView>
+      </Animated.View>
     </View>
   );
 }
@@ -160,7 +241,9 @@ function FeaturesSection() {
               { backgroundColor: f.bg, borderTopColor: f.accent },
             ]}
           >
-            <Text style={s.featEmoji}>{f.emoji}</Text>
+            <View style={[s.featIconBox, { backgroundColor: f.accent + "22" }]}>
+              <Ionicons name={f.icon as any} size={24} color={f.accent} />
+            </View>
             <Text style={s.featTitle}>{f.title}</Text>
             <Text style={s.featDesc}>{f.desc}</Text>
           </View>
@@ -169,7 +252,6 @@ function FeaturesSection() {
     </View>
   );
 }
-
 
 function CtaSection() {
   return (
@@ -185,13 +267,25 @@ function CtaSection() {
       <View style={s.ctaPills}>
         {CTA_PILLS.map((pill, i) => (
           <View key={i} style={s.pill}>
-            <Text style={s.pillText}>{pill}</Text>
+            <Ionicons
+              name={pill.icon as any}
+              size={16}
+              color="#555"
+              style={{ marginRight: 6 }}
+            />
+            <Text style={s.pillText}>{pill.label}</Text>
           </View>
         ))}
       </View>
 
       <TouchableOpacity style={s.ctaBtn}>
-        <Text style={s.ctaBtnText}>🏆 Empezar gratis</Text>
+        <Ionicons
+          name="trophy-outline"
+          size={20}
+          color={C.white}
+          style={{ marginRight: 8 }}
+        />
+        <Text style={s.ctaBtnText}>Empezar gratis</Text>
       </TouchableOpacity>
     </View>
   );

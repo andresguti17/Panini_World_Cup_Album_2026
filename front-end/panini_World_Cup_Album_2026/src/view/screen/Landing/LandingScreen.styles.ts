@@ -93,9 +93,9 @@ export const s = StyleSheet.create({
   ctaTitle:   { fontSize: WEB ? 60 : 38, fontWeight: '900', color: C.dark, textAlign: 'center', lineHeight: WEB ? 58 : 40, marginBottom: 12 },
   ctaSub:     { fontSize: 15, color: '#777', marginBottom: 24, textAlign: 'center' },
   ctaPills:   { flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 28 },
-  pill:       { backgroundColor: C.white, borderWidth: 2, borderColor: '#eee', borderRadius: 50, paddingHorizontal: 16, paddingVertical: 8 },
+  pill: { backgroundColor: C.white, borderWidth: 2, borderColor: '#eee', borderRadius: 50, paddingHorizontal: 16, paddingVertical: 8, flexDirection: 'row', alignItems: 'center' },
   pillText:   { fontSize: 13, fontWeight: '700', color: '#555' },
-  ctaBtn:     { backgroundColor: C.orange, borderRadius: 50, paddingHorizontal: 44, paddingVertical: 16 },
+  ctaBtn: { backgroundColor: C.orange, borderRadius: 50, paddingHorizontal: 44, paddingVertical: 16, flexDirection: 'row', alignItems: 'center' },
   ctaBtnText: { fontSize: 17, fontWeight: '800', color: C.white },
 
   // ── Footer
@@ -104,4 +104,8 @@ export const s = StyleSheet.create({
   footerDots: { flexDirection: 'row', gap: 8 },
   footerDot:  { width: 10, height: 10, borderRadius: 5 },
   footerCopy: { fontSize: 12, color: 'rgba(255,255,255,0.35)' },
+
+  // ── Features
+  featIconBox: { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  
 });
