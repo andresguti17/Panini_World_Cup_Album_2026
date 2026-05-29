@@ -3,9 +3,32 @@ import { Colors as C } from '../../../constants/colors';
 export const COLOR_STRIP = [C.orange, C.lime, C.blue, C.purple, C.red, C.gold];
 
 export const COUNTRIES = [
-  'Argentina 🇦🇷', 'Brasil 🇧🇷', 'Francia 🇫🇷', 'Colombia 🇨🇴',
-  'España 🇪🇸', 'México 🇲🇽', 'Alemania 🇩🇪', 'Portugal 🇵🇹',
-  'Uruguay 🇺🇾', 'Japón 🇯🇵', 'Marruecos 🇲🇦', 'USA 🇺🇸',
+  // CONMEBOL
+  'Argentina ᴬᴿᴳ', 'Brasil ᴮᴿᴬ', 'Colombia ᶜᴼᴸ', 'Ecuador ᴱᶜᵁ',
+  'Paraguay ᴾᴬᴿ', 'Uruguay ᵁᴿᵁ',
+
+  // UEFA
+  'Alemania ᴳᴱᴿ', 'Austria ᴬᵁᵀ', 'Bélgica ᴮᴱᴸ', 'Bosnia y Herz. ᴮᴵᴴ',
+  'Croacia ᶜᴿᴼ', 'España ᴱˢᴾ', 'Escocia ˢᶜᴼ', 'Francia ᶠᴿᴬ',
+  'Inglaterra ᴱᴺᴳ', 'Noruega ᴺᴼᴿ', 'Países Bajos ᴺᴱᴰ', 'Portugal ᴾᴼᴿ',
+  'Rep. Checa ᶜᶻᴱ', 'Suecia ˢᵂᴱ', 'Suiza ˢᵁᴵ', 'Turquía ᵀᵁᴿ',
+
+  // CAF
+  'Argelia ᴬᴸᴳ', 'Cabo Verde ᶜᴾᵛ', 'Costa de Marfil ᶜᴵᵛ', 'Egipto ᴱᴳʸ',
+  'Ghana ᴳᴴᴬ', 'Marruecos ᴹᴬᴿ', 'R.D. Congo ᶜᴼᴰ', 'Senegal ˢᴱᴺ',
+  'Sudáfrica ᴿˢᴬ', 'Túnez ᵀᵁᴺ',
+
+  // AFC
+  'Arabia Saudita ᴷˢᴬ', 'Australia ᴬᵁˢ', 'Catar ᵠᴬᵀ', 'Corea del Sur ᴷᴼᴿ',
+  'Irak ᴵᴿᵠ', 'Irán ᴵᴿᴺ', 'Japón ᴶᴾᴺ', 'Jordania ᴶᴼᴿ',
+  'Uzbekistán ᵁᶻᴮ',
+
+  // CONCACAF
+  'Canadá ᶜᴬᴺ', 'Costa Rica ᶜᴿᶜ', 'Curazao ᶜᵁᵂ', 'Honduras ᴴᴼᴺ',
+  'Jamaica ᴶᴬᴹ', 'México ᴹᴱˣ', 'Panamá ᴾᴬᴺ', 'USA ᵁˢᴬ',
+
+  // OFC + Repechaje
+  'Nueva Caledonia ᴺᶜᴸ', 'Surinam ˢᵁᴿ',
 ];
 
 export const STATS: { value: string; label: string; color: string }[] = [

@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../navigations/AppNavigator';
 import {
   View,
   Text,
@@ -22,14 +25,13 @@ import {
 // ── Sub-componentes ────────────────────────────────────────────────────────
 
 function Nav() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <View style={s.nav}>
       <Text style={s.navLogo}>
         Panini <Text style={s.navLogoAccent}>WC 2026</Text>
       </Text>
-      <TouchableOpacity style={s.navBtn}>
-        <Text style={s.navBtnText}>Empezar gratis</Text>
-      </TouchableOpacity>
     </View>
   );
 }

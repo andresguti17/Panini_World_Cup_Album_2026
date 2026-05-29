@@ -35,8 +35,8 @@ export const s = StyleSheet.create({
   colorSeg:   { flex: 1 },
 
   // ── Country strip
-  countryStrip: { backgroundColor: C.orange, paddingVertical: 13 },
-  countryRow:   { paddingHorizontal: 8 },
+  countryStrip: { backgroundColor: C.orange, paddingVertical: 8 },
+  countryRow:   { paddingHorizontal: 5 },
   countryItem:  { fontSize: 15, fontWeight: '800', color: C.white, paddingHorizontal: 20, borderRightWidth: 2, borderRightColor: 'rgba(255,255,255,0.25)' },
 
   // ── Stats
