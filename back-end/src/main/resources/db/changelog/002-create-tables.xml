@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <!-- =========================================================== -->
+    <!--  Sticker Album 2026 – Liquibase Changelog (Native XML)     -->
+    <!--  Target: PostgreSQL                                        -->
+    <!-- =========================================================== -->
+
+    <!-- =========================================================== -->
+    <!--  1. Independent tables                                      -->
+    <!-- =========================================================== -->
+    <changeSet id="1" author="migration">
+        <createTable tableName="countries">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_countries"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fifa_code" type="VARCHAR(10)"/>
+            <column name="flag_url" type="VARCHAR(255)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="countries"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="migration">
+        <createTable tableName="sticker_categories">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sticker_categories"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="description" type="TEXT"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sticker_categories"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="migration">
+        <createTable tableName="sticker_packs">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sticker_packs"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="price_coins" type="INT">
+                <constraints nullable="false" checkConstraint="price_coins > 0"/>
+            </column>
+            <column name="sticker_quantity" type="INT" defaultValueNumeric="7">
+                <constraints checkConstraint="sticker_quantity > 0"/>
+            </column>
+            <column name="release_date" type="DATE"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sticker_packs"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="4" author="migration">
+        <createTable tableName="achievements">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_achievements"/>
+            </column>
+            <column name="title" type="VARCHAR(100)"/>
+            <column name="description" type="TEXT"/>
+            <column name="reward_coins" type="INT">
+                <constraints checkConstraint="reward_coins >= 0"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="achievements"/>
+        </rollback>
+    </changeSet>
+
+    <!-- =========================================================== -->
+    <!--  2. Tables with FK                                          -->
+    <!-- =========================================================== -->
+    <changeSet id="5" author="migration">
+        <createTable tableName="users">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_id" type="INT"/>
+            <column name="coins" type="INT" defaultValueNumeric="0">
+                <constraints checkConstraint="coins >= 0"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP"/>
+        </createTable>
+        <addUniqueConstraint tableName="users" columnNames="email" constraintName="uq_users_email"/>
+        <addUniqueConstraint tableName="users" columnNames="username" constraintName="uq_users_username"/>
+        <addForeignKeyConstraint baseTableName="users" baseColumnNames="country_id"
+                                 referencedTableName="countries" referencedColumnNames="id"
+                                 constraintName="fk_countries_id_users"/>
+        <rollback>
+            <dropTable tableName="users"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="6" author="migration">
+        <createTable tableName="teams">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_teams"/>
+            </column>
+            <column name="country_id" type="INT"/>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group_letter" type="CHAR(1)"/>
+            <column name="coach_name" type="VARCHAR(100)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="teams" baseColumnNames="country_id"
+                                 referencedTableName="countries" referencedColumnNames="id"
+                                 constraintName="fk_countries_id_teams"/>
+        <rollback>
+            <dropTable tableName="teams"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="7" author="migration">
+        <createTable tableName="albums">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_albums"/>
+            </column>
+            <column name="user_id" type="INT"/>
+            <column name="completion_percentage" type="DECIMAL(5,2)" defaultValueNumeric="0.00">
+                <constraints checkConstraint="completion_percentage BETWEEN 0 AND 100"/>
+            </column>
+            <column name="completed_at" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="albums" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_albums"/>
+        <rollback>
+            <dropTable tableName="albums"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="8" author="migration">
+        <createTable tableName="players">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_players"/>
+            </column>
+            <column name="team_id" type="INT"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="jersey_number" type="INT"/>
+            <column name="position" type="VARCHAR(30)"/>
+            <column name="birth_date" type="DATE"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="players" baseColumnNames="team_id"
+                                 referencedTableName="teams" referencedColumnNames="id"
+                                 constraintName="fk_teams_id_players"/>
+        <rollback>
+            <dropTable tableName="players"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9" author="migration">
+        <createTable tableName="stickers">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_stickers"/>
+            </column>
+            <column name="code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sticker_type" type="VARCHAR(30)">
+                <constraints nullable="false" checkConstraint="sticker_type IN ('player','team','badge','special')"/>
+            </column>
+            <column name="rarity" type="VARCHAR(30)">
+                <constraints nullable="false" checkConstraint="rarity IN ('common','rare','epic','legendary')"/>
+            </column>
+            <column name="category_id" type="INT"/>
+            <column name="player_id" type="INT"/>
+            <column name="team_id" type="INT"/>
+            <column name="image_url" type="VARCHAR(255)"/>
+            <column name="market_value_coins" type="INT">
+                <constraints checkConstraint="market_value_coins >= 0"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP"/>
+        </createTable>
+        <addUniqueConstraint tableName="stickers" columnNames="code" constraintName="uq_stickers_code"/>
+        <!-- CHECK adicionales con SQL nativo porque Liquibase no permite múltiples filas -->
+        <sql>
+            <![CDATA[
+            ALTER TABLE stickers ADD CONSTRAINT chk_sticker_player CHECK (sticker_type <> 'player' OR player_id IS NOT NULL);
+            ALTER TABLE stickers ADD CONSTRAINT chk_sticker_team CHECK (sticker_type <> 'team' OR team_id IS NOT NULL);
+            ]]>
+        </sql>
+        <addForeignKeyConstraint baseTableName="stickers" baseColumnNames="category_id"
+                                 referencedTableName="sticker_categories" referencedColumnNames="id"
+                                 constraintName="fk_sticker_categories_id_stickers"/>
+        <addForeignKeyConstraint baseTableName="stickers" baseColumnNames="player_id"
+                                 referencedTableName="players" referencedColumnNames="id"
+                                 constraintName="fk_players_id_stickers"/>
+        <addForeignKeyConstraint baseTableName="stickers" baseColumnNames="team_id"
+                                 referencedTableName="teams" referencedColumnNames="id"
+                                 constraintName="fk_teams_id_stickers"/>
+        <rollback>
+            <dropTable tableName="stickers"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10" author="migration">
+        <createTable tableName="pack_openings">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_pack_openings"/>
+            </column>
+            <column name="user_id" type="INT"/>
+            <column name="pack_id" type="INT"/>
+            <column name="opened_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="pack_openings" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_pack_openings"/>
+        <addForeignKeyConstraint baseTableName="pack_openings" baseColumnNames="pack_id"
+                                 referencedTableName="sticker_packs" referencedColumnNames="id"
+                                 constraintName="fk_sticker_packs_id_pack_openings"/>
+        <rollback>
+            <dropTable tableName="pack_openings"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="11" author="migration">
+        <createTable tableName="pack_opening_stickers">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_pack_opening_stickers"/>
+            </column>
+            <column name="pack_opening_id" type="INT"/>
+            <column name="sticker_id" type="INT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="pack_opening_stickers" baseColumnNames="pack_opening_id"
+                                 referencedTableName="pack_openings" referencedColumnNames="id"
+                                 constraintName="fk_pack_openings_id_pack_opening_stickers"/>
+        <addForeignKeyConstraint baseTableName="pack_opening_stickers" baseColumnNames="sticker_id"
+                                 referencedTableName="stickers" referencedColumnNames="id"
+                                 constraintName="fk_stickers_id_pack_opening_stickers"/>
+        <rollback>
+            <dropTable tableName="pack_opening_stickers"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12" author="migration">
+        <createTable tableName="album_stickers">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_album_stickers"/>
+            </column>
+            <column name="album_id" type="INT"/>
+            <column name="sticker_id" type="INT"/>
+            <column name="quantity" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false" checkConstraint="quantity >= 1"/>
+            </column>
+            <column name="obtained_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="album_stickers" columnNames="album_id, sticker_id" constraintName="uq_album_stickers"/>
+        <addForeignKeyConstraint baseTableName="album_stickers" baseColumnNames="album_id"
+                                 referencedTableName="albums" referencedColumnNames="id"
+                                 constraintName="fk_albums_id_album_stickers"/>
+        <addForeignKeyConstraint baseTableName="album_stickers" baseColumnNames="sticker_id"
+                                 referencedTableName="stickers" referencedColumnNames="id"
+                                 constraintName="fk_stickers_id_album_stickers"/>
+        <rollback>
+            <dropTable tableName="album_stickers"/>
+        </rollback>
+    </changeSet>
+
+    <!-- =========================================================== -->
+    <!--  13. Vistas (missing_stickers)                              -->
+    <!-- =========================================================== -->
+    <changeSet id="13" author="migration">
+        <createView viewName="missing_stickers">
+            SELECT
+            a.id   AS album_id,
+            s.id   AS sticker_id,
+            s.code AS sticker_code,
+            s.name AS sticker_name,
+            s.rarity,
+            s.sticker_type
+            FROM albums a
+            CROSS JOIN stickers s
+            WHERE s.deleted_at IS NULL
+            AND NOT EXISTS (
+            SELECT 1 FROM album_stickers als
+            WHERE als.album_id = a.id AND als.sticker_id = s.id
+            )
+        </createView>
+        <rollback>
+            <dropView viewName="missing_stickers"/>
+        </rollback>
+    </changeSet>
+
+    <!-- =========================================================== -->
+    <!--  14. Trades                                                 -->
+    <!-- =========================================================== -->
+    <changeSet id="14" author="migration">
+        <createTable tableName="trades">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_trades"/>
+            </column>
+            <column name="sender_user_id" type="INT"/>
+            <column name="receiver_user_id" type="INT"/>
+            <column name="trade_status" type="VARCHAR(20)" defaultValue="pending">
+                <constraints nullable="false" checkConstraint="trade_status IN ('pending','accepted','rejected','completed','cancelled')"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_at" type="TIMESTAMP"/>
+            <column name="deleted_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            <![CDATA[
+            ALTER TABLE trades ADD CONSTRAINT chk_trades_different_users CHECK (sender_user_id <> receiver_user_id);
+            ]]>
+        </sql>
+        <addForeignKeyConstraint baseTableName="trades" baseColumnNames="sender_user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_trades_sender"/>
+        <addForeignKeyConstraint baseTableName="trades" baseColumnNames="receiver_user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_trades_receiver"/>
+        <rollback>
+            <dropTable tableName="trades"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="15" author="migration">
+        <createTable tableName="trade_stickers">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_trade_stickers"/>
+            </column>
+            <column name="trade_id" type="INT"/>
+            <column name="sticker_id" type="INT"/>
+            <column name="offered_by_user_id" type="INT"/>
+            <column name="trade_side" type="VARCHAR(20)">
+                <constraints nullable="false" checkConstraint="trade_side IN ('offering','requesting')"/>
+            </column>
+            <column name="quantity" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false" checkConstraint="quantity >= 1"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="trade_stickers" baseColumnNames="trade_id"
+                                 referencedTableName="trades" referencedColumnNames="id"
+                                 constraintName="fk_trades_id_trade_stickers"/>
+        <addForeignKeyConstraint baseTableName="trade_stickers" baseColumnNames="sticker_id"
+                                 referencedTableName="stickers" referencedColumnNames="id"
+                                 constraintName="fk_stickers_id_trade_stickers"/>
+        <addForeignKeyConstraint baseTableName="trade_stickers" baseColumnNames="offered_by_user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_trade_stickers"/>
+        <rollback>
+            <dropTable tableName="trade_stickers"/>
+        </rollback>
+    </changeSet>
+
+    <!-- =========================================================== -->
+    <!--  16. Purchases                                              -->
+    <!-- =========================================================== -->
+    <changeSet id="16" author="migration">
+        <createTable tableName="purchases">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_purchases"/>
+            </column>
+            <column name="user_id" type="INT"/>
+            <column name="total_coins" type="INT">
+                <constraints nullable="false" checkConstraint="total_coins > 0"/>
+            </column>
+            <column name="purchase_status" type="VARCHAR(20)" defaultValue="pending">
+                <constraints nullable="false" checkConstraint="purchase_status IN ('pending','completed','refunded','cancelled')"/>
+            </column>
+            <column name="purchased_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="purchases" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_purchases"/>
+        <rollback>
+            <dropTable tableName="purchases"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="17" author="migration">
+        <createTable tableName="purchase_items">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_purchase_items"/>
+            </column>
+            <column name="purchase_id" type="INT"/>
+            <column name="pack_id" type="INT"/>
+            <column name="quantity" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false" checkConstraint="quantity >= 1"/>
+            </column>
+            <column name="subtotal_coins" type="INT">
+                <constraints nullable="false" checkConstraint="subtotal_coins >= 0"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="purchase_items" baseColumnNames="purchase_id"
+                                 referencedTableName="purchases" referencedColumnNames="id"
+                                 constraintName="fk_purchases_id_purchase_items"/>
+        <addForeignKeyConstraint baseTableName="purchase_items" baseColumnNames="pack_id"
+                                 referencedTableName="sticker_packs" referencedColumnNames="id"
+                                 constraintName="fk_sticker_packs_id_purchase_items"/>
+        <rollback>
+            <dropTable tableName="purchase_items"/>
+        </rollback>
+    </changeSet>
+
+    <!-- =========================================================== -->
+    <!--  18. User achievements                                      -->
+    <!-- =========================================================== -->
+    <changeSet id="18" author="migration">
+        <createTable tableName="user_achievements">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_user_achievements"/>
+            </column>
+            <column name="user_id" type="INT"/>
+            <column name="achievement_id" type="INT"/>
+            <column name="unlocked_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="user_achievements" columnNames="user_id, achievement_id" constraintName="uq_user_achievements"/>
+        <addForeignKeyConstraint baseTableName="user_achievements" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
+                                 constraintName="fk_users_id_user_achievements"/>
+        <addForeignKeyConstraint baseTableName="user_achievements" baseColumnNames="achievement_id"
+                                 referencedTableName="achievements" referencedColumnNames="id"
+                                 constraintName="fk_achievements_id_user_achievements"/>
+        <rollback>
+            <dropTable tableName="user_achievements"/>
+        </rollback>
+    </changeSet>
+
+    <!-- =========================================================== -->
+    <!--  19. Triggers para updated_at (PostgreSQL) - Versión corregida -->
+    <!-- =========================================================== -->
+    <changeSet id="19" author="migration" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION update_updated_at_column()
+            RETURNS TRIGGER AS '
+            BEGIN
+                NEW.updated_at = CURRENT_TIMESTAMP;
+                RETURN NEW;
+            END;
+            ' LANGUAGE plpgsql;
+            ]]>
+        </sql>
+        <rollback>
+            <sql>DROP FUNCTION IF EXISTS update_updated_at_column();</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20" author="migration" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE TRIGGER trg_users_updated_at
+            BEFORE UPDATE ON users
+            FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+            ]]>
+        </sql>
+        <rollback>
+            <sql>DROP TRIGGER IF EXISTS trg_users_updated_at ON users;</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21" author="migration" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE TRIGGER trg_albums_updated_at
+            BEFORE UPDATE ON albums
+            FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+            ]]>
+        </sql>
+        <rollback>
+            <sql>DROP TRIGGER IF EXISTS trg_albums_updated_at ON albums;</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22" author="migration" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE TRIGGER trg_album_stickers_updated_at
+            BEFORE UPDATE ON album_stickers
+            FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+            ]]>
+        </sql>
+        <rollback>
+            <sql>DROP TRIGGER IF EXISTS trg_album_stickers_updated_at ON album_stickers;</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23" author="migration" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE TRIGGER trg_trades_updated_at
+            BEFORE UPDATE ON trades
+            FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+            ]]>
+        </sql>
+        <rollback>
+            <sql>DROP TRIGGER IF EXISTS trg_trades_updated_at ON trades;</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="24" author="migration" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE TRIGGER trg_purchases_updated_at
+            BEFORE UPDATE ON purchases
+            FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+            ]]>
+        </sql>
+        <rollback>
+            <sql>DROP TRIGGER IF EXISTS trg_purchases_updated_at ON purchases;</sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
