@@ -1,14 +1,463 @@
 {
   "version": "2.0.0",
-  "darkMode": false,
+  "darkMode": true,
   "gridEnabling": false,
   "currentViewName": null,
   "defaultView": {
     "detailLevel": "All",
-    "tablePositions": [],
+    "tablePositions": [
+      {
+        "name": "countries",
+        "schemaName": "public",
+        "x": 12,
+        "y": 12
+      },
+      {
+        "name": "sticker_categories",
+        "schemaName": "public",
+        "x": 12,
+        "y": 218
+      },
+      {
+        "name": "sticker_packs",
+        "schemaName": "public",
+        "x": 12,
+        "y": 392
+      },
+      {
+        "name": "achievements",
+        "schemaName": "public",
+        "x": 12,
+        "y": 630
+      },
+      {
+        "name": "users",
+        "schemaName": "public",
+        "x": 601.4774406027633,
+        "y": 395.93605031330515
+      },
+      {
+        "name": "teams",
+        "schemaName": "public",
+        "x": 538.611328125,
+        "y": 12
+      },
+      {
+        "name": "players",
+        "schemaName": "public",
+        "x": 1167.43603515625,
+        "y": 283
+      },
+      {
+        "name": "albums",
+        "schemaName": "public",
+        "x": 1167.43603515625,
+        "y": 12
+      },
+      {
+        "name": "stickers",
+        "schemaName": "public",
+        "x": 1915.9951171875,
+        "y": 74
+      },
+      {
+        "name": "pack_openings",
+        "schemaName": "public",
+        "x": 1167.43603515625,
+        "y": 585
+      },
+      {
+        "name": "pack_opening_stickers",
+        "schemaName": "public",
+        "x": 2475.95654296875,
+        "y": 12
+      },
+      {
+        "name": "album_stickers",
+        "schemaName": "public",
+        "x": 2475.95654296875,
+        "y": 186
+      },
+      {
+        "name": "trades",
+        "schemaName": "public",
+        "x": 1167.43603515625,
+        "y": 813
+      },
+      {
+        "name": "trade_stickers",
+        "schemaName": "public",
+        "x": 2475.95654296875,
+        "y": 456
+      },
+      {
+        "name": "purchases",
+        "schemaName": "public",
+        "x": 1167.43603515625,
+        "y": 1147
+      },
+      {
+        "name": "purchase_items",
+        "schemaName": "public",
+        "x": 1915.9951171875,
+        "y": 558
+      },
+      {
+        "name": "user_achievements",
+        "schemaName": "public",
+        "x": 1167.43603515625,
+        "y": 1417
+      }
+    ],
     "tableGroupCollapseStates": [],
     "stickyNoteLayouts": [],
-    "referencePaths": []
+    "referencePaths": [
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "countries",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "country_id"
+        ],
+        "secondTableName": "users",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "user_id"
+        ],
+        "secondTableName": "albums",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "countries",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "country_id"
+        ],
+        "secondTableName": "teams",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "teams",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "team_id"
+        ],
+        "secondTableName": "players",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "sticker_categories",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "category_id"
+        ],
+        "secondTableName": "stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "players",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "player_id"
+        ],
+        "secondTableName": "stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "teams",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "team_id"
+        ],
+        "secondTableName": "stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "user_id"
+        ],
+        "secondTableName": "pack_openings",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "sticker_packs",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "pack_id"
+        ],
+        "secondTableName": "pack_openings",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "pack_openings",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "pack_opening_id"
+        ],
+        "secondTableName": "pack_opening_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "stickers",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "sticker_id"
+        ],
+        "secondTableName": "pack_opening_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "albums",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "album_id"
+        ],
+        "secondTableName": "album_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "stickers",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "sticker_id"
+        ],
+        "secondTableName": "album_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "sender_user_id"
+        ],
+        "secondTableName": "trades",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "receiver_user_id"
+        ],
+        "secondTableName": "trades",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "trades",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "trade_id"
+        ],
+        "secondTableName": "trade_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "stickers",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "sticker_id"
+        ],
+        "secondTableName": "trade_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "offered_by_user_id"
+        ],
+        "secondTableName": "trade_stickers",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "user_id"
+        ],
+        "secondTableName": "purchases",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "purchases",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "purchase_id"
+        ],
+        "secondTableName": "purchase_items",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "sticker_packs",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "pack_id"
+        ],
+        "secondTableName": "purchase_items",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "users",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "user_id"
+        ],
+        "secondTableName": "user_achievements",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id"
+        ],
+        "firstTableName": "achievements",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "achievement_id"
+        ],
+        "secondTableName": "user_achievements",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      }
+    ]
   },
   "views": {}
 }

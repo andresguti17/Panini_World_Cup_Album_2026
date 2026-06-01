@@ -49,35 +49,35 @@ Table countries [headercolor: #175e7a] {
     id        int          [pk, increment, unique]
     name      varchar(100) [not null]
     fifa_code varchar(10)
-    flag_url  varchar(255)
+    flag_url  varchar(10) [not null]
 }
 
 Table sticker_categories [headercolor: #175e7a] {
     id          int         [pk, increment, unique]
-    name        varchar(50)
+    name        varchar(50) [not null]
     description text
 }
 
 Table sticker_packs [headercolor: #175e7a] {
     id               int          [pk, increment, unique]
-    name             varchar(50)
+    name             varchar(50) [not null]
     // precio en coins — sin decimales, siempre > 0
     price_coins      int          [not null, note: 'CHECK price_coins > 0']
     sticker_quantity int          [default: 7, note: 'CHECK sticker_quantity > 0']
-    release_date     date
+    release_date     date         [not null]
 }
 
 Table achievements [headercolor: #175e7a] {
     id           int          [pk, increment, unique]
-    title        varchar(100)
-    description  text
+    title        varchar(100) [not null]
+    description  text       [not null]
     reward_coins int          [note: 'CHECK reward_coins >= 0']
 }
 
 // ── Usuarios ──────────────────────────────────────────────────
 
 Table users [headercolor: #175e7a] {
-    id            int          [pk, increment, unique]
+    id            UNIQUEIDENTIFIER [pk, increment, unique]
     // #10: username y email deben ser únicos
     username      varchar(50)  [not null, unique]
     email         varchar(100) [not null, unique]
@@ -85,10 +85,10 @@ Table users [headercolor: #175e7a] {
     country_id    int
     // #5: nunca negativo
     coins         int          [not null, default: 0, note: 'CHECK coins >= 0']
-    created_at    timestamp    [default: `now()`]
-    updated_at    timestamp    [default: `now()`]   // #12
+    created_at    datetime2    [default: `now()`]
+    updated_at    datetime2    [default: `now()`]   // #12
     // #13: soft delete — NULL = activo
-    deleted_at    timestamp
+    deleted_at    datetime2
 }
 
 // ── Equipos y Jugadores ───────────────────────────────────────
@@ -97,29 +97,30 @@ Table teams [headercolor: #175e7a] {
     id           int          [pk, increment, unique]
     country_id   int
     name         varchar(100) [not null]
-    group_letter char(1)
-    coach_name   varchar(100)
+    group_letter char(1)      [not null]
+    first_coach_name   varchar(20)  [not null]
+    last_coach_name    varchar(20)  [not null]
 }
 
 Table players [headercolor: #175e7a] {
     id            int         [pk, increment, unique]
     team_id       int
-    first_name    varchar(50)
-    last_name     varchar(50)
-    jersey_number int
-    position      varchar(30)
-    birth_date    date
+    first_name    varchar(50)   [not null]
+    last_name     varchar(50)   [not null]
+    jersey_number int   [not null]
+    position      varchar(30)   [not null]
+    birth_date    date  [not null]
 }
 
 // ── Álbum ────────────────────────────────────────────────────
 
 Table albums [headercolor: #175e7a] {
-    id                    int            [pk, increment, unique]
-    user_id               int
+    id                    UNIQUEIDENTIFIER [pk, increment, unique]
+    user_id               UNIQUEIDENTIFIER
     completion_percentage decimal(5,2)   [default: 0, note: 'CHECK BETWEEN 0 AND 100']
-    completed_at          timestamp
-    created_at            timestamp      [default: `now()`]
-    updated_at            timestamp      [default: `now()`]  // #12
+    completed_at          datetime2
+    created_at            datetime2      [default: `now()`]
+    updated_at            datetime2      [default: `now()`]  // #12
 }
 
 // ── Figuritas ─────────────────────────────────────────────────
@@ -138,23 +139,23 @@ Table stickers [headercolor: #175e7a] {
     team_id            int            [note: 'NOT NULL when sticker_type = team']
     image_url          varchar(255)
     market_value_coins int            [note: 'CHECK >= 0']
-    created_at         timestamp      [default: `now()`]
+    created_at         datetime2      [default: `now()`]
     // #13: soft delete para figuritas descontinuadas
-    deleted_at         timestamp
+    deleted_at         datetime2
 }
 
 // ── Apertura de Sobres ────────────────────────────────────────
 
 Table pack_openings [headercolor: #175e7a] {
-    id        int       [pk, increment, unique]
-    user_id   int
+    id        UNIQUEIDENTIFIER        [pk, increment, unique]
+    user_id   UNIQUEIDENTIFIER
     pack_id   int
-    opened_at timestamp [default: `now()`]
+    opened_at datetime2 [default: `now()`]
 }
 
 Table pack_opening_stickers [headercolor: #175e7a] {
     id              int [pk, increment, unique]
-    pack_opening_id int
+    pack_opening_id UNIQUEIDENTIFIER
     sticker_id      int
 }
 
@@ -163,12 +164,12 @@ Table pack_opening_stickers [headercolor: #175e7a] {
 
 Table album_stickers [headercolor: #175e7a] {
     id          int       [pk, increment, unique]
-    album_id    int
+    album_id    UNIQUEIDENTIFIER
     sticker_id  int
     // duplicado si quantity > 1
     quantity    int       [not null, default: 1, note: 'CHECK quantity >= 1']
-    obtained_at timestamp [default: `now()`]
-    updated_at  timestamp [default: `now()`]  // #12
+    obtained_at datetime2 [default: `now()`]
+    updated_at  datetime2 [default: `now()`]  // #12
 
     indexes {
         (album_id, sticker_id) [unique, name: 'uq_album_stickers']
@@ -186,15 +187,15 @@ Table album_stickers [headercolor: #175e7a] {
 // ── Trades ────────────────────────────────────────────────────
 
 Table trades [headercolor: #175e7a] {
-    id               int          [pk, increment, unique]
-    sender_user_id   int
-    receiver_user_id int
+    id               UNIQUEIDENTIFIER        [pk, increment, unique]
+    sender_user_id   UNIQUEIDENTIFIER
+    receiver_user_id UNIQUEIDENTIFIER
     trade_status     trade_status [not null, default: 'pending']
-    created_at       timestamp    [default: `now()`]
-    updated_at       timestamp    [default: `now()`]  // #12
-    completed_at     timestamp
+    created_at       datetime2    [default: `now()`]
+    updated_at       datetime2    [default: `now()`]  // #12
+    completed_at     datetime2
     // #13: soft delete
-    deleted_at       timestamp
+    deleted_at       datetime2
 
     note: 'CHECK sender_user_id <> receiver_user_id'
 }
@@ -202,7 +203,7 @@ Table trades [headercolor: #175e7a] {
 // #4: trade_side clarifica la dirección de cada figurita
 Table trade_stickers [headercolor: #175e7a] {
     id                 int        [pk, increment, unique]
-    trade_id           int
+    trade_id           UNIQUEIDENTIFIER
     sticker_id         int
     offered_by_user_id int
     // offering = lo que pone en la mesa / requesting = lo que quiere recibir
@@ -213,18 +214,18 @@ Table trade_stickers [headercolor: #175e7a] {
 // ── Compras (en coins) ────────────────────────────────────────
 
 Table purchases [headercolor: #175e7a] {
-    id              int            [pk, increment, unique]
-    user_id         int
+    id              UNIQUEIDENTIFIER             [pk, increment, unique]
+    user_id         UNIQUEIDENTIFIER
     // total en coins — sin decimales
     total_coins     int            [not null, note: 'CHECK total_coins > 0']
     purchase_status purchase_status [not null, default: 'pending']
-    purchased_at    timestamp      [default: `now()`]
-    updated_at      timestamp      [default: `now()`]  // #12
+    purchased_at    datetime2      [default: `now()`]
+    updated_at      datetime2      [default: `now()`]  // #12
 }
 
 Table purchase_items [headercolor: #175e7a] {
     id             int [pk, increment, unique]
-    purchase_id    int
+    purchase_id    UNIQUEIDENTIFIER
     pack_id        int
     quantity       int [not null, default: 1, note: 'CHECK quantity >= 1']
     subtotal_coins int [not null, note: 'CHECK subtotal_coins >= 0']
@@ -234,9 +235,9 @@ Table purchase_items [headercolor: #175e7a] {
 
 Table user_achievements [headercolor: #175e7a] {
     id             int       [pk, increment, unique]
-    user_id        int
+    user_id        UNIQUEIDENTIFIER
     achievement_id int
-    unlocked_at    timestamp [default: `now()`]
+    unlocked_at    datetime2 [default: `now()`]
 
     indexes {
         (user_id, achievement_id) [unique, name: 'uq_user_achievements']
