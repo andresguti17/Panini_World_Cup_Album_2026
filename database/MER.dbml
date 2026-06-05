@@ -243,6 +243,62 @@ Table user_achievements [headercolor: #175e7a] {
         (user_id, achievement_id) [unique, name: 'uq_user_achievements']
     }
 }
+// ============================================================
+// MÓDULOS DE NEGOCIO (ARQUITECTURA N-CAPAS MODULAR)
+// ============================================================
+
+TableGroup user_module {
+    Note: 'Gestión de usuarios, autenticación y monedas'
+
+    users
+}
+
+TableGroup world_cup_module {
+    Note: 'Información oficial del mundial'
+
+    countries
+    teams
+    players
+}
+
+TableGroup catalog_module {
+    Note: 'Catálogo maestro de figuritas'
+
+    sticker_categories
+    stickers
+}
+
+TableGroup album_module {
+    Note: 'Álbum virtual y progreso del usuario'
+
+    albums
+    album_stickers
+}
+
+TableGroup pack_module {
+    Note: 'Compra y apertura de sobres'
+
+    sticker_packs
+    pack_openings
+    pack_opening_stickers
+}
+
+TableGroup commerce_module {
+    Note: 'Compras e intercambios'
+
+    purchases
+    purchase_items
+
+    trades
+    trade_stickers
+}
+
+TableGroup achievement_module {
+    Note: 'Sistema de logros'
+
+    achievements
+    user_achievements
+}
 
 // ── REFERENCIAS ───────────────────────────────────────────────
 

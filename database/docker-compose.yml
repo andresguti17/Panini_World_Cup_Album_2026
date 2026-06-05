@@ -1,12 +1,20 @@
+version: '3.9'
+
 services:
-  db-album-world-cup:
-    image: postgres:18
-    container_name: db-album-world-cup
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sticker_album_sqlserver
+    restart: unless-stopped
+
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: album_world_cup
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "TuPasswordSegura123*"
+
     ports:
-      - "5435:5432"
+      - "1433:1433"
+
     volumes:
-      - ./init:/docker-entrypoint-initdb.d
+      - sqlserver_data:/var/opt/mssql
+
+volumes:
+  sqlserver_data:
