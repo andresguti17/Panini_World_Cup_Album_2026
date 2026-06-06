@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public record CountryResponse(
     Integer id,
     String name,
-    String fifa_code,
-    String flag_url,
+    String fifaCode,
+    String flagUrl,
     boolean status,
     LocalDateTime createdAt,
     LocalDateTime updatedAt

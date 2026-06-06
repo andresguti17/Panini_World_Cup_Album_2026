@@ -19,8 +19,8 @@ public class Country extends BaseEntity {
     private String name;
 
     @Column(name = "fifa_code", nullable = false, unique = true)
-    private String fifa_code;
+    private String fifaCode;
 
     @Column(name = "flag_url", nullable = false)
-    private String flag_url;
+    private String flagUrl;
 }
