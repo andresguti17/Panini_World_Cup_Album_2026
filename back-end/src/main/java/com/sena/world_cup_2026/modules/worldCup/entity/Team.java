@@ -24,7 +24,7 @@ public class Team extends BaseEntity {
     private String name;
 
     @Column(name = "group_letter")
-    private char groupLetter;
+    private Character groupLetter;
 
     @Column(name = "coach_name")
     @Size(max = 100, message = "Coach name must be at most 100 characters")

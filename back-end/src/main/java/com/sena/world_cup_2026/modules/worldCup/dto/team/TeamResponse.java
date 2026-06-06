@@ -1,13 +1,15 @@
 package com.sena.world_cup_2026.modules.worldCup.dto.team;
 
+import com.sena.world_cup_2026.modules.worldCup.entity.Country;
+
 import java.time.LocalDateTime;
 
 public record TeamResponse(
         Integer id,
-        Integer country_id,
+        Country country,
         String name,
-        String group_letter,
-        String coach_name,
+        Character groupLetter,
+        String coachName,
         boolean status,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
