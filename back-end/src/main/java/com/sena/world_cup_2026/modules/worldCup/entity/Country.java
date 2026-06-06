@@ -1,5 +1,6 @@
-package com.sena.world_cup_2026.modules.country.entity;
+package com.sena.world_cup_2026.modules.worldCup.entity;
 
+import com.sena.world_cup_2026.shared.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "countries")
 @Entity
-public class CountryEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
+public class Country extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;

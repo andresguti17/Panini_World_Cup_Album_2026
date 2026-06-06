@@ -7,6 +7,6 @@
        http://www.liquibase.org/xml/ns/dbchangelog
        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <include file="db/changelog/002-create-tables.xml"/>
+    <include file="db/changelog/003-create-new-tables.xml"/>
 
 </databaseChangeLog>
