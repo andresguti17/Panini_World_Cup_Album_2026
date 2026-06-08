@@ -27,9 +27,20 @@ public abstract class AbstractController<Request, Response, Update, ID> {
                 .body(getService().save(request));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Response> partialUpdate(@PathVariable ID id, @RequestBody Update patch) {
+        return ResponseEntity.ok(getService().partialUpdate(id, patch));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable ID id, @RequestBody Update update) {
+    public ResponseEntity<Response> update(@PathVariable ID id, @RequestBody Request update) {
         return ResponseEntity.ok(getService().update(id, update));
+    }
+
+    @PatchMapping("/{id}/disable")
+    public ResponseEntity<Response> logicalDelete(@PathVariable ID id) {
+        getService().logicalDeleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

@@ -6,7 +6,8 @@ public interface CrudService<Request, Response, Update, ID> {
     List<Response> findAll();
     Response findById(ID id);
     Response save(Request request);
-    Response update(ID id, Update request);
-    // void logicalDeleteById(ID id);
+    Response partialUpdate(ID id, Update request);
+    Response update(ID id, Request request);
+    void logicalDeleteById(ID id);
     void deleteById(ID id);
 }

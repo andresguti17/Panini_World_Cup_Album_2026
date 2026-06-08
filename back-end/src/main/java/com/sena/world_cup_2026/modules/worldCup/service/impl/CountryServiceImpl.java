@@ -2,7 +2,7 @@ package com.sena.world_cup_2026.modules.worldCup.service.impl;
 
 import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryRequest;
 import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryResponse;
-import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryUpdate;
+import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryPatch;
 import com.sena.world_cup_2026.modules.worldCup.entity.Country;
 import com.sena.world_cup_2026.modules.worldCup.mapper.CountryMapper;
 import com.sena.world_cup_2026.modules.worldCup.repository.CountryRepository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CountryServiceImpl
-        extends BaseServiceImpl<Country, CountryRequest, CountryResponse, CountryUpdate, Integer>
+        extends BaseServiceImpl<Country, CountryRequest, CountryResponse, CountryPatch, Integer>
         implements CountryService {
 
     public CountryServiceImpl(CountryRepository repository, CountryMapper mapper) {
@@ -21,6 +21,8 @@ public class CountryServiceImpl
                 mapper::toResponse,
                 mapper::toEntity,
                 mapper::updateEntity,
+                mapper::partialUpdate,
+                Country:: setStatus,
                 id -> new RuntimeException("Country not found with id: " + id)
         );
     }

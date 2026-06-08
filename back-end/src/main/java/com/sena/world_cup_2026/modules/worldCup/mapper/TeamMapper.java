@@ -1,12 +1,10 @@
 package com.sena.world_cup_2026.modules.worldCup.mapper;
 
+import com.sena.world_cup_2026.modules.worldCup.dto.team.TeamPatch;
 import com.sena.world_cup_2026.modules.worldCup.dto.team.TeamRequest;
 import com.sena.world_cup_2026.modules.worldCup.dto.team.TeamResponse;
-import com.sena.world_cup_2026.modules.worldCup.dto.team.TeamUpdate;
 import com.sena.world_cup_2026.modules.worldCup.entity.Team;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface TeamMapper {
@@ -16,5 +14,8 @@ public interface TeamMapper {
 
     TeamResponse toResponse(Team entity);
 
-    void updateEntity(TeamUpdate update, @MappingTarget Team entity);
+    void updateEntity(TeamRequest update, @MappingTarget Team entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdate(TeamPatch patch, @MappingTarget Team entity);
 }

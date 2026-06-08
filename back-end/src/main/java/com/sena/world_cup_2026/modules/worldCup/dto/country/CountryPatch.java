@@ -3,7 +3,7 @@ package com.sena.world_cup_2026.modules.worldCup.dto.country;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record CountryUpdate(
+public record CountryPatch(
         @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres")
         String name,
 
