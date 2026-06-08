@@ -15,12 +15,12 @@ import lombok.Setter;
 @Entity
 public class Country extends BaseEntity {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "fifa_code", nullable = false, unique = true)
+    @Column(name = "fifa_code")
     private String fifaCode;
 
-    @Column(name = "flag_url", nullable = false)
+    @Column(name = "flag_url")
     private String flagUrl;
 }

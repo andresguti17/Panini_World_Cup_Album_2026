@@ -1,4 +1,4 @@
-package com.sena.world_cup_2026.modules.worldCup.util;
+package com.sena.world_cup_2026.shared.util;
 
 public class Views {
     public interface Summary { }

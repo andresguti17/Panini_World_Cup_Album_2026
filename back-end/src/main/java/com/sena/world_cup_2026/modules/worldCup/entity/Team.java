@@ -17,16 +17,15 @@ import lombok.Setter;
 public class Team extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "country_id", nullable = false)
+    @JoinColumn(name = "country_id")
     private Country country;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "group_letter")
     private Character groupLetter;
 
     @Column(name = "coach_name")
-    @Size(max = 100, message = "Coach name must be at most 100 characters")
     private String coachName;
 }

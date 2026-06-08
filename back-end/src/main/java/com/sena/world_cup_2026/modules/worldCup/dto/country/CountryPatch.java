@@ -12,6 +12,8 @@ public record CountryPatch(
         String fifaCode,
 
         @Size(min = 2, max = 3, message = "El código de la bandera no está en el límite")
-        String flagUrl
+        String flagUrl,
+
+        Boolean status
 ) {
 }

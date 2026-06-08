@@ -16,6 +16,8 @@ public record TeamPatch(
         Character groupLetter,
 
         @Size(max = 100, message = "El nombre del entrenador no debe exceder 100 caracteres")
-        String coachName
+        String coachName,
+
+        Boolean status
 ) {
 }
