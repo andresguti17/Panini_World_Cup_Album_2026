@@ -23,6 +23,15 @@
             </column>
             <column name="fifa_code" type="VARCHAR(10)"/>
             <column name="flag_url" type="VARCHAR(255)"/>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="countries"/>
@@ -36,6 +45,15 @@
             </column>
             <column name="name" type="VARCHAR(50)"/>
             <column name="description" type="TEXT"/>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="sticker_categories"/>
@@ -55,6 +73,15 @@
                 <constraints checkConstraint="sticker_quantity > 0"/>
             </column>
             <column name="release_date" type="DATE"/>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="sticker_packs"/>
@@ -70,6 +97,15 @@
             <column name="description" type="TEXT"/>
             <column name="reward_coins" type="INT">
                 <constraints checkConstraint="reward_coins >= 0"/>
+            </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <rollback>
@@ -97,6 +133,9 @@
             <column name="country_id" type="INT"/>
             <column name="coins" type="INT" defaultValueNumeric="0">
                 <constraints checkConstraint="coins >= 0"/>
+            </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
@@ -127,6 +166,15 @@
             </column>
             <column name="group_letter" type="CHAR(1)"/>
             <column name="coach_name" type="VARCHAR(100)"/>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="teams" baseColumnNames="country_id"
                                  referencedTableName="countries" referencedColumnNames="id"
@@ -146,6 +194,9 @@
                 <constraints checkConstraint="completion_percentage BETWEEN 0 AND 100"/>
             </column>
             <column name="completed_at" type="TIMESTAMP"/>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -172,6 +223,15 @@
             <column name="jersey_number" type="INT"/>
             <column name="position" type="VARCHAR(30)"/>
             <column name="birth_date" type="DATE"/>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="players" baseColumnNames="team_id"
                                  referencedTableName="teams" referencedColumnNames="id"
@@ -205,7 +265,13 @@
             <column name="market_value_coins" type="INT">
                 <constraints checkConstraint="market_value_coins >= 0"/>
             </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="deleted_at" type="TIMESTAMP"/>
@@ -242,6 +308,15 @@
             <column name="opened_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="pack_openings" baseColumnNames="user_id"
                                  referencedTableName="users" referencedColumnNames="id"
@@ -254,6 +329,9 @@
         </rollback>
     </changeSet>
 
+    <!-- =========================================================== -->
+    <!--  11. Tabla pivote (excluida de campos comunes)             -->
+    <!-- =========================================================== -->
     <changeSet id="11" author="migration">
         <createTable tableName="pack_opening_stickers">
             <column name="id" type="INT" autoIncrement="true">
@@ -284,6 +362,12 @@
                 <constraints nullable="false" checkConstraint="quantity >= 1"/>
             </column>
             <column name="obtained_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -340,6 +424,9 @@
             <column name="trade_status" type="VARCHAR(20)" defaultValue="pending">
                 <constraints nullable="false" checkConstraint="trade_status IN ('pending','accepted','rejected','completed','cancelled')"/>
             </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -379,6 +466,15 @@
             <column name="quantity" type="INT" defaultValueNumeric="1">
                 <constraints nullable="false" checkConstraint="quantity >= 1"/>
             </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="trade_stickers" baseColumnNames="trade_id"
                                  referencedTableName="trades" referencedColumnNames="id"
@@ -412,6 +508,12 @@
             <column name="purchased_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
             <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -437,6 +539,15 @@
             <column name="subtotal_coins" type="INT">
                 <constraints nullable="false" checkConstraint="subtotal_coins >= 0"/>
             </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="purchase_items" baseColumnNames="purchase_id"
                                  referencedTableName="purchases" referencedColumnNames="id"
@@ -460,6 +571,15 @@
             <column name="user_id" type="INT"/>
             <column name="achievement_id" type="INT"/>
             <column name="unlocked_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>
