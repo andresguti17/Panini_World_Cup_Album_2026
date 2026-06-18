@@ -2,7 +2,6 @@ package com.sena.world_cup_2026.modules.worldCup.entity;
 
 import com.sena.world_cup_2026.shared.entity.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

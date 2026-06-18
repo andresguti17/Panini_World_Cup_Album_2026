@@ -1,7 +1,5 @@
 package com.sena.world_cup_2026.modules.worldCup.dto.team;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 

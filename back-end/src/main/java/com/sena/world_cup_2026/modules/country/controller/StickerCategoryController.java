@@ -1,11 +1,11 @@
 package com.sena.world_cup_2026.modules.country.controller;
 
+import com.sena.world_cup_2026.modules.country.dto.StickerCategoryDTO;
+import com.sena.world_cup_2026.modules.country.service.StickerCategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sena.world_cup_2026.modules.country.dto.StickerCategoryDTO;
-import com.sena.world_cup_2026.modules.country.service.StickerCategoryService;
 
 import java.util.List;
 

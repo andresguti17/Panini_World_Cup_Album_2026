@@ -4,7 +4,10 @@ import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryPatch;
 import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryRequest;
 import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryResponse;
 import com.sena.world_cup_2026.modules.worldCup.entity.Country;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface CountryMapper {

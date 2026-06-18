@@ -9,7 +9,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Mapping(source = "teamId", target = "team.id")
+    @Mapping(source = "countryId", target = "country.id")
     User toEntity(UserRequest request);
 
     UserResponse toResponse(User entity);

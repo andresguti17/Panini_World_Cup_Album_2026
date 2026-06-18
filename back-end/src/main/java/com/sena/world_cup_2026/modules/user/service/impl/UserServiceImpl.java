@@ -7,13 +7,6 @@ import com.sena.world_cup_2026.modules.user.entity.User;
 import com.sena.world_cup_2026.modules.user.mapper.UserMapper;
 import com.sena.world_cup_2026.modules.user.repository.UserRepository;
 import com.sena.world_cup_2026.modules.user.service.UserService;
-import com.sena.world_cup_2026.modules.worldCup.dto.player.PlayerPatch;
-import com.sena.world_cup_2026.modules.worldCup.dto.player.PlayerRequest;
-import com.sena.world_cup_2026.modules.worldCup.dto.player.PlayerResponse;
-import com.sena.world_cup_2026.modules.worldCup.entity.Player;
-import com.sena.world_cup_2026.modules.worldCup.mapper.PlayerMapper;
-import com.sena.world_cup_2026.modules.worldCup.repository.PlayerRepository;
-import com.sena.world_cup_2026.modules.worldCup.service.PlayerService;
 import com.sena.world_cup_2026.shared.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 

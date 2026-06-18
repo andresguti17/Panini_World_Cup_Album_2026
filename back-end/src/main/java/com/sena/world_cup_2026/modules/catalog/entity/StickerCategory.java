@@ -1,4 +1,4 @@
-package com.sena.world_cup_2026.modules.worldCup.entity;
+package com.sena.world_cup_2026.modules.catalog.entity;
 
 import com.sena.world_cup_2026.shared.entity.BaseEntity;
 import jakarta.persistence.Column;
@@ -13,16 +13,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "countries")
+@Table(name = "sticker_categories")
 @Entity
-public class Country extends BaseEntity {
-
+public class StickerCategory extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "fifa_code")
-    private String fifaCode;
-
-    @Column(name = "flag_url")
-    private String flagUrl;
+    @Column(name = "description")
+    private String description;
 }

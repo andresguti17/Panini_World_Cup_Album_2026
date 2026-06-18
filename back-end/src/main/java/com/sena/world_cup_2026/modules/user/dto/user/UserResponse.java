@@ -5,6 +5,7 @@ import com.sena.world_cup_2026.modules.worldCup.dto.country.CountryResponse;
 import java.time.LocalDateTime;
 
 public record UserResponse(
+        Integer id,
         String username,
         String email,
         String passwordHash,
