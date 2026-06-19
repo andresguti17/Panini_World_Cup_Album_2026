@@ -9,5 +9,4 @@ public class WorldCup2026Application {
 	public static void main(String[] args) {
 		SpringApplication.run(WorldCup2026Application.class, args);
 	}
-
 }

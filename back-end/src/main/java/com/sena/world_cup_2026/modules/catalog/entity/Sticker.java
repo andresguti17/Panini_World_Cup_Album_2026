@@ -22,10 +22,10 @@ public class Sticker extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "sticker_tyoe")
+    @Column(name = "sticker_type")
     private String stickerType; //ENUM
 
-    @Column(name = "sticker_rarity")
+    @Column(name = "rarity")
     private String stickerRarity; //ENUM
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
